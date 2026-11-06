@@ -1,0 +1,199 @@
+# Composition recipes (compose.py): camera, light and style, roles in fractions of the frame — the centre U,
+# the width (a fraction of the frame), the top V, the distance (m). Layout rules: one main mass, a
+# counterweight smaller and lower, overlap instead of touching, a calm strip, tops at different heights; the
+# check is silhouettes (notan). The sun — from the view axis (° in azimuth, + — to the left) and the
+# elevation.
+spacious:       # spacious: one tower, a counterweight, a lot of sky
+  camera: {z: 3000, tilt: 3, lens: 28}
+  style: warm_painted
+  haze: 2.0
+  sun: [-62, 12]
+  base: 1700
+  scene: {floor: 0.95, humps: 1, wisps: 1, sink: 450}
+  roles:
+    - {name: main, type: congestus, U: 0.70, width: 0.36, top: 0.86, dist: 19000, seed: 21, kw: {tower: -12}}
+    - {name: counterweight, type: mediocris, U: 0.13, width: 0.34, top: 0.62, dist: 12500, seed: 25, kw: {lean: -0.4}}
+    - {name: third, type: mediocris, U: 0.47, width: 0.15, top: 0.53, dist: 24000, seed: 22}
+    - {name: chain, type: bank_far, U: 0.5, width: 1.15, top: 0.47, dist: 38000, seed: 23}
+rich:           # rich: large masses in layers across the whole frame — the sky4b layout, roles with a hierarchy
+  camera: {z: 3000, tilt: 3, lens: 28}
+  style: warm_painted
+  haze: 2.0
+  sun: [-62, 12]
+  base: 1700
+  scene: {floor: 0.95, humps: 1, wisps: 1, sink: 450}
+  roles:                         # fractions of the frame — the sky4b layout by mass centres (the masses are partly beyond the frame edge)
+    - {name: main, type: bank, U: 0.61, width: 0.71, top: 0.81, dist: 24000, seed: 12, peak: 0.35}
+    - {name: second, type: bank, U: 0.93, width: 0.64, top: 0.72, dist: 15000, seed: 13, peak: 0.4}
+    - {name: a wall on the left, type: bank, U: 0.03, width: 1.12, top: 1.05, dist: 9000, seed: 11, peak: 0.6}
+    - {name: far, type: bank, U: 0.29, width: 0.30, top: 0.54, dist: 33000, seed: 14, peak: 0.5}
+# a storm by the node's light and weather over the rich masses (stand: weather=storm lightning=N), not by an
+# anvil: towers, anvils and lenses looked like "some buildings made of clouds"; the kinds congestus,
+# cumulonimbus, lenticular are in types.yaml, not in the recipes kinds one at a time — the kinds sheet (one
+# hero per frame)
+type_mediocris:    {camera: {z: 3000, tilt: 3, lens: 28}, style: warm_painted, haze: 1.2, sun: [-62, 12], base: 1700, scene: {floor: 0.95, sink: 300},
+                    roles: [{type: mediocris, U: 0.5, width: 0.45, top: 0.7, dist: 12000, seed: 52}]}
+
+# above a castle in the mountains (bench/castle.py): the camera is the scene's far camera, the bases are above
+# the scene's mountains (base: auto); light — the variant's light
+castle_fair:       # a clear day: medium cumulus above the ridges, spacious
+  camera: scene
+  light: {time: day, weather: clear, sun_rel: -70}
+  roles:
+    - {name: main, type: mediocris, U: 0.70, width: 0.24, top: 0.93, dist: 9000, seed: 61}
+    - {name: counterweight, type: mediocris, U: 0.24, width: 0.15, top: 0.84, dist: 13000, seed: 62}
+    - {name: third, type: mediocris, U: 0.40, width: 0.07, top: 0.76, dist: 19000, seed: 63}
+    - {name: chain, type: bank_far, U: 0.5, width: 1.1, top: 0.70, dist: 30000, seed: 64}
+castle_rich:       # evening: rich masses behind the mountains (the sky4b layout)
+  camera: scene
+  light: {time: sunset, weather: clear, sun_rel: -35}
+  roles:
+    - {name: main, type: bank, U: 0.60, width: 0.70, top: 0.97, dist: 16000, seed: 12, peak: 0.35}
+    - {name: second, type: bank, U: 0.95, width: 0.5, top: 0.86, dist: 11000, seed: 13, peak: 0.4}
+    - {name: a wall on the left, type: bank, U: 0.05, width: 0.6, top: 1.02, dist: 9000, seed: 11, peak: 0.6}
+    - {name: far, type: bank_far, U: 0.4, width: 1.1, top: 0.72, dist: 28000, seed: 14}
+castle_storm:      # a storm: heavy dark masses low above the mountains, lightning inside
+  camera: scene
+  light: {time: day, weather: overcast, sun_rel: -80, sky_k: 0.3, ground_k: 0.2, haze_k: 0.6, dens: 0.7, ts_blur: 3, flashes: 2, flash: 3}
+  roles:
+    - {name: main, type: bank, U: 0.55, width: 0.95, top: 1.05, dist: 9000, seed: 71, peak: 0.45}
+    - {name: second, type: bank, U: 0.12, width: 0.45, top: 0.95, dist: 7000, seed: 72, peak: 0.5}
+    - {name: far, type: bank_far, U: 0.6, width: 1.1, top: 0.78, dist: 20000, seed: 73}
+castle_afterglow:  # after sunset: one large mass glows pink above dark mountains
+  camera: scene
+  light: {time: afterglow, weather: clear, sun_rel: -25}
+  roles:
+    - {name: main, type: mediocris, U: 0.66, width: 0.36, top: 0.97, dist: 14000, seed: 81}
+    - {name: counterweight, type: mediocris, U: 0.18, width: 0.18, top: 0.82, dist: 18000, seed: 82}
+    - {name: chain, type: bank_far, U: 0.5, width: 1.1, top: 0.70, dist: 30000, seed: 83}
+castle_night:      # night: clouds under the moon above the mountains
+  camera: scene
+  light: {time: night, weather: clear, sun_rel: 120}
+  roles:
+    - {name: main, type: bank, U: 0.62, width: 0.6, top: 0.95, dist: 15000, seed: 91, peak: 0.4}
+    - {name: counterweight, type: mediocris, U: 0.15, width: 0.22, top: 0.84, dist: 12000, seed: 92}
+    - {name: chain, type: bank_far, U: 0.5, width: 1.1, top: 0.70, dist: 30000, seed: 93}
+
+# five cloud covers over one scene (the light is the same — afternoon, the sun to the side); layers — ext, alt
+# | above_valley
+castle_v1_field:   # a scatter: a field of medium and flat cumulus across the whole sky, the distant ones smaller and lower
+  camera: scene
+  light: {time: afternoon, weather: clear, sun_rel: -60}
+  roles:
+    - {name: near, type: mediocris, U: 0.78, width: 0.20, top: 0.86, dist: 8000, seed: 101}
+    - {name: left, type: mediocris, U: 0.16, width: 0.15, top: 0.80, dist: 10000, seed: 102}
+    - {name: average, type: mediocris, U: 0.46, width: 0.11, top: 0.74, dist: 13000, seed: 103}
+    - {name: flat 1, type: humilis, U: 0.25, width: 0.09, top: 0.66, dist: 17000, seed: 104}
+    - {name: flat 2, type: humilis, U: 0.72, width: 0.08, top: 0.64, dist: 20000, seed: 105}
+    - {name: flat 3, type: humilis, U: 0.92, width: 0.07, top: 0.62, dist: 23000, seed: 106}
+    - {name: far, type: humilis, U: 0.08, width: 0.06, top: 0.60, dist: 26000, seed: 107}
+castle_v2_wall:    # a wall: rich masses rise behind the distant mountains across the full width of the frame
+  camera: scene
+  light: {time: afternoon, weather: clear, sun_rel: -60}
+  roles:
+    - {name: wall, type: bank, U: 0.55, width: 1.30, top: 0.98, dist: 26000, seed: 111, peak: 0.4}
+    - {name: left, type: bank, U: 0.10, width: 0.45, top: 0.90, dist: 19000, seed: 112, peak: 0.5}
+castle_v3_single:  # one large cloud above a lake, a lot of empty sky
+  camera: scene
+  light: {time: afternoon, weather: clear, sun_rel: -60}
+  roles:
+    - {name: main, type: mediocris, U: 0.60, width: 0.44, top: 0.97, dist: 12000, seed: 121}
+    - {name: small, type: humilis, U: 0.14, width: 0.06, top: 0.62, dist: 24000, seed: 122}
+castle_v4_sea:     # clouds wrap around the mountains: a layer at mid-height of the ridges, the peaks above it; a couple of cumulus higher up
+  camera: scene
+  light: {time: afternoon, weather: clear, sun_rel: -60}
+  roles:
+    - {name: belt, type: stratocumulus, dist: 14000, ext: 22000, mid_ridge: 0.45, thick: 260, cover: 0.82, cell: 1300, seed: 131}
+    - {name: cumulus, type: mediocris, U: 0.74, width: 0.16, top: 0.84, dist: 14000, seed: 132}
+    - {name: cumulus 2, type: humilis, U: 0.24, width: 0.10, top: 0.70, dist: 21000, seed: 133}
+castle_v5_high:    # high sky: altocumulus "fleece" and cirrus, no cumulus
+  camera: scene
+  light: {time: afternoon, weather: clear, sun_rel: -60}
+  roles:
+    - {name: whitecaps, type: altocumulus, dist: 18000, ext: 36000, alt: 4200, seed: 141}
+    - {name: cirrus, type: cirrus, dist: 24000, ext: 60000, alt: 8500, seed: 142, cover: 0.3}
+
+# clouds from the ground (anchor.py): a regime + a relief summary → clouds in the world; one light; cameras —
+# medium, far, from above
+castle_t_fair:  {camera: scene, regime: fair, cover: 0.2, seed: 5, light: {time: afternoon, weather: clear, sun_rel: -60}}
+castle_t_peaks: {camera: scene, regime: peaks, cover: 0.2, seed: 5, light: {time: afternoon, weather: clear, sun_rel: -60}}
+castle_t_belt:  {camera: scene, regime: belt, cover: 0.12, seed: 5, light: {time: afternoon, weather: clear, sun_rel: -60}}
+castle_t_fog:   {camera: scene, regime: fog, seed: 5, light: {time: morning, weather: clear, sun_rel: -60}}
+castle_t_storm: {camera: scene, regime: storm, cover: 0.15, seed: 5, light: {time: day, weather: overcast, sun_rel: -60, sky_k: 0.3, ground_k: 0.2, haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.25}}
+castle_t_storm_flash: {camera: scene, regime: storm, cover: 0.15, seed: 5, light: {time: day, weather: overcast, sun_rel: -60, sky_k: 0.3, ground_k: 0.2, haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.25, flashes: 3, flash: 14, bolt: 1, bolt_power: 3000}}
+castle_t_storm_bolt: {camera: scene, regime: storm, cover: 0.15, seed: 5, light: {time: day, weather: overcast, sun_rel: -60, sky_k: 0.3, ground_k: 0.2, haze_k: 0.6,
+  dens: 0.7, ts_blur: 3, rain: 0.25, flashes: 3, flash: 14, bolt: 1, bolt_lambda: 11000, bolt_light: 3.0e8}}   # lightning: a thin channel, a spider, the channel's light on the clouds
+castle_t_storm_bolt2: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0.85, light: {time: day, weather: overcast, sun_rel: -60, sky_k: 0.3, ground_k: 0.2,
+  haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.25, flashes: 3, flash: 14, bolt: 1, bolt_lambda: 3000, bolt_light: 3.0e8}}   # a veil with gaps, a weaker channel
+castle_t_storm_bolt_eve: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0.85, light: {time: evening, weather: storm, sun_rel: -60, sky_k: 0.5, ground_k: 0.3,
+  haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.25, flashes: 3, flash: 14, bolt: 1, bolt_lambda: 3000, bolt_light: 3.0e8}}   # an evening storm: the flash is the main light
+castle_t_storm_bolt_night: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0.85, light: {time: afterglow, weather: overcast, sun_rel: -60, sky_k: 0.6,
+  ground_k: 0.3, haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.25, flashes: 3, flash: 1.0, bolt: 1, bolt_lambda: 200, bolt_light: 2.0e7}}   # dusk: a cold palette, the flash is the main light
+castle_t_storm_bolt_night2: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0.85, light: {time: afterglow, weather: overcast, sun_rel: -60, sky_k: 0.6,
+  ground_k: 0.3, haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.25, flashes: 3, flash: 0.5, bolt: 1, bolt_lambda: 90, bolt_light: 2.0e7}}   # light near the channel, the bottom in lumps (anchor)
+castle_t_storm_bolt_night3: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0.85, light: {time: afterglow, weather: overcast, sun_rel: -60, sky_k: 0.6,
+  ground_k: 0.3, haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.12, flashes: 3, flash: 0.5, bolt: 1, bolt_lambda: 90, bolt_light: 2.0e7}}   # + the puffs of the main mass, rain in curtains
+castle_t_storm_bolt_night4: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0.85, light: {time: afterglow, weather: overcast, sun_rel: -60, sky_k: 0.6,
+  ground_k: 0.3, haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.12, flashes: 3, flash: 0.5, bolt: 1, bolt_lambda: 90, bolt_light: 2.0e7}}   # + a veil from below in lumps
+castle_t_storm_bolt_seq: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0.85, light: {time: afterglow, weather: overcast, sun_rel: -60, sky_k: 0.6,
+  ground_k: 0.3, haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.12, flashes: 3, flash: 0.5, bolt: 1, bolt_lambda: 90, bolt_light: 2.0e7, bolt_seq: 1}}   # + the flash over time (gif)
+castle_t_storm_sky: {camera: scene, regime: storm, cover: 0.5, seed: 5, deck: 0.98, light: {time: day, weather: haze, sun_rel: -60, sky_k: 0.6, ground_k: 0.4,
+  haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.12, deck_sun: 0.25, up_cam: 1}}   # a storm sky from below: the shadow of the veil by height, a view upward from the castle
+castle_t_storm_sky2: {camera: scene, regime: storm, cover: 0.5, seed: 5, deck: 0.8, deck_form: ceiling, light: {time: day, weather: haze, sun_rel: -60, sky_k: 0.6,
+  ground_k: 0.25, haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.12, deck_sun: 0.25, up_cam: 1}}   # a storm ceiling (storm_ceiling) instead of a veil
+castle_t_storm_sky3: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0.8, deck_form: ceiling, light: {time: day, weather: cumulus, sun_rel: -60, sky_k: 0.6,
+  ground_k: 0.25, haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.12, deck_sun: 0.25, up_cam: 1}}   # ceiling: clear air (an 8 km haze turned it milky), no masses near the castle
+castle_t_storm_sky4: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0.8, deck_form: ceiling, light: {time: day, weather: cumulus, sun_rel: -60, sky_k: 0.6,
+  ground_k: 0.25, haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.12, deck_sun: 0.25, up_cam: 1}}   # a ceiling with a ragged edge
+castle_t_storm_sky_bolt: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0.8, deck_form: ceiling, light: {time: afterglow, weather: overcast, sun_rel: -60,
+  sky_k: 0.6, ground_k: 0.3, haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.12, flashes: 3, flash: 0.5, bolt: 1, bolt_lambda: 90, bolt_light: 2.0e7, up_cam: 1}}   # ceiling + lightning, dusk
+castle_t_storm_sky_magic: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0.8, deck_form: ceiling, light: {time: afterglow, weather: overcast, sun_rel: -60,
+  sky_k: 0.6, ground_k: 0.3, haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.12, flashes: 3, flash: 0.5, bolt: 1, bolt_lambda: 90, bolt_light: 2.0e7, up_cam: 1,
+  rim: 6.0, rim_el: -3.0, rim_rgb: [1.0, 0.42, 0.18], rim_far: 1.5, rim_a: 0.6}}   # "magic" dawn light: rims and undersides by paint
+castle_t_storm_sky_magic2: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0.8, deck_form: ceiling, light: {time: afterglow, weather: overcast, sun_rel: -60,
+  sky_k: 0.6, ground_k: 0.3, haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.12, flashes: 3, flash: 0.5, bolt: 1, bolt_lambda: 90, bolt_light: 2.0e7, up_cam: 1,
+  rim: 8.0, rim_el: -1.0, rim_rgb: [1.0, 0.36, 0.12], rim_far: 2.5, rim_a: 2.0}}   # a narrower and brighter rim: the light fades inward faster, stronger for the distant ones
+castle_t_storm_sky_magic3: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0.8, deck_form: ceiling, light: {time: afterglow, weather: overcast, sun_rel: -60,
+  sky_k: 0.6, ground_k: 0.3, haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.12, flashes: 3, flash: 0.5, bolt: 1, bolt_lambda: 90, bolt_light: 2.0e7, up_cam: 1,
+  rim: 8.0, rim_el: -1.0, rim_rgb: [1.0, 0.36, 0.12], rim_far: 2.5, rim_a: 2.0,
+  leak: 4.0, leak_a: 0.35, leak_rgb: [1.0, 0.62, 0.38], glow: 5.0, glow_n: 3, glow_a: 1.0, glow_rgb: [1.0, 0.7, 0.42]}}   # B + light in thin places + the glow of the distant ones
+castle_t_storm_sky_magic4: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0.8, deck_form: ceiling, light: {time: afterglow, weather: overcast, sun_rel: -60,
+  sky_k: 0.6, ground_k: 0.3, haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.12, flashes: 3, flash: 0.5, bolt: 1, bolt_lambda: 90, bolt_light: 2.0e7, up_cam: 1,
+  rim: 8.0, rim_el: -1.0, rim_rgb: [1.0, 0.36, 0.12], rim_far: 2.5, rim_a: 2.0,
+  leak: 6.0, leak_a: 0.2, leak_rgb: [1.0, 0.62, 0.38], glow: 5.0, glow_n: 3, glow_a: 1.0, glow_rgb: [1.0, 0.7, 0.42], paint_passes: 1}}   # + layer passes (paint.py)
+castle_t_storm_front: {camera: scene, regime: storm, cover: 0.3, seed: 5, deck: 0.8, deck_form: ceiling, light: {time: dusk, weather: overcast, sun_rel: -60,
+  sky_k: 0.6, ground_k: 0.3, haze_k: 0.6, dens: 0.7, ts_blur: 3, rain: 0.12, bolt: 1, bolt_cam: 0, bolt_lambda: 40, bolt_light: 1.0e7, ic: 30, ic_n: 2,
+  rim: 18.0, rim_el: -1.0, rim_rgb: [0.55, 0.75, 1.0], rim_far: 2.5, rim_a: 2.0, leak: 10.0, leak_a: 0.2, leak_rgb: [0.62, 0.72, 1.0],
+  glow: 10.0, glow_n: 4, glow_a: 1.0, glow_rgb: [0.6, 0.75, 1.0], skybox: 1, skybox_h: 60, paint_passes: 1}}   # a storm front: a skybox, a storm inside the masses, a storm palette
+castle_t_storm_front_real: {camera: scene, regime: storm, cover: 0.3, seed: 5, deck: 0.8, deck_form: ceiling, light: {time: dusk, weather: overcast, sun_rel: -60,
+  sky_k: 0.6, ground_k: 0.3, haze_k: 0.6, dens: 0.7, rain: 0.12, bolt: 1, bolt_cam: 0, bolt_lambda: 40, bolt_light: 1.0e7, ic: 60, ic_n: 2, realism: 1.0,
+  rim: 18.0, rim_el: -1.0, rim_rgb: [0.55, 0.75, 1.0], rim_far: 2.5, rim_a: 2.0, leak: 10.0, leak_a: 0.2, leak_rgb: [0.62, 0.72, 1.0],
+  glow: 10.0, glow_n: 4, glow_a: 1.0, glow_rgb: [0.6, 0.75, 1.0], skybox: 1, skybox_h: 60, paint_passes: 1}}   # front + realism 1 (puffs and faces), a stronger storm inside
+castle_t_storm_hybrid: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0.8, deck_form: ceiling, light: {time: afterglow, weather: overcast, sun_rel: -60,
+  sky_k: 0.6, ground_k: 0.3, haze_k: 0.6, dens: 0.7, rain: 0.12, flashes: 3, flash: 0.5, bolt: 1, bolt_lambda: 90, bolt_light: 2.0e7, ic: 60, ic_n: 2, up_cam: 1,
+  hybrid: 1, rim: 8.0, rim_el: -1.0, rim_rgb: [1.0, 0.36, 0.12], rim_far: 2.5, rim_a: 2.0, leak: 6.0, leak_a: 0.2, leak_rgb: [1.0, 0.62, 0.38],
+  glow: 5.0, glow_n: 3, glow_a: 1.0, glow_rgb: [1.0, 0.7, 0.42], paint_passes: 1}}   # a third kind — towers of the sample cloud + soft masses and a ceiling + effects on top
+castle_t_storm_hybrid2: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0.8, deck_form: ceiling, light: {time: afterglow, weather: overcast, sun_rel: -60,
+  sky_k: 0.6, ground_k: 0.3, haze_k: 0.6, dens: 0.7, rain: 0.12, flashes: 3, flash: 0.5, bolt: 1, bolt_lambda: 90, bolt_light: 2.0e7, ic: 60, ic_n: 2, up_cam: 1,
+  tower_cam: 1, hybrid: 1, rim: 8.0, rim_el: -1.0, rim_rgb: [1.0, 0.36, 0.12], rim_far: 2.5, rim_a: 2.0, leak: 6.0, leak_a: 0.2, leak_rgb: [1.0, 0.62, 0.38],
+  glow: 5.0, glow_n: 3, glow_a: 1.0, glow_rgb: [1.0, 0.7, 0.42], paint_passes: 1}}   # hybrid + a "tower" camera (a storm tower of the sample cloud filling the frame, lightning under it)
+castle_t_storm_hybrid3: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0.8, deck_form: ceiling, ceil_l: 10000, light: {time: afterglow, weather: overcast,
+  sun_rel: -60, sky_k: 0.6, ground_k: 0.3, haze_k: 0.6, dens: 0.7, rain: 0.12, flashes: 3, flash: 0.5, bolt: 1, bolt_lambda: 90, bolt_light: 2.0e7, ic: 60, ic_n: 2,
+  up_cam: 1, tower_cam: 1, hybrid: 1, ceil_vs: 24, rim: 8.0, rim_el: -1.0, rim_rgb: [1.0, 0.36, 0.12], rim_far: 2.5, rim_a: 2.0, leak: 6.0, leak_a: 0.2,
+  leak_rgb: [1.0, 0.62, 0.38], glow: 5.0, glow_n: 3, glow_a: 1.0, glow_rgb: [1.0, 0.7, 0.42], paint_passes: 1}}   # + the ceiling's "cloudlet look" (lumps on lumps), a 24 m grid
+castle_t_storm_hybrid4: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0.8, deck_form: ceiling, ceil_l: 10000, light: {time: afterglow, weather: overcast,
+  sun_rel: -60, sky_k: 0.6, ground_k: 0.3, haze_k: 0.6, dens: 0.7, rain: 0.12, flashes: 3, flash: 0.5, bolt: 1, bolt_lambda: 90, bolt_light: 2.0e7, ic: 60, ic_n: 2,
+  up_cam: 1, hybrid: 1, ceil_vs: 24, ceil_protrude: 0.7, vol_samples: 256, vol_dist: 1.0, vol_start: 300, vol_end: 40000,
+  rim: 8.0, rim_el: -1.0, rim_rgb: [1.0, 0.36, 0.12], rim_far: 2.5, rim_a: 2.0, leak: 6.0, leak_a: 0.2, leak_rgb: [1.0, 0.62, 0.38],
+  glow: 5.0, glow_n: 3, glow_a: 1.0, glow_rgb: [1.0, 0.7, 0.42], paint_passes: 1}}   # cloudlet look: the lumps' children protrude by 0.7; the Eevee volume — 256 layers, denser near the camera
+castle_t_storm_cells: {camera: scene, regime: storm, cover: 0.15, seed: 5, deck: 0, shelf: 0, near: 8000, hero_k: 1.6, light: {time: afterglow, weather: overcast, sun_rel: -60,
+  sky_k: 0.6, ground_k: 0.3, haze_k: 0.6, dens: 0.7, ts_blur: 2, rain: 0.12, flashes: 3, flash: 0.6, bolt: 1, bolt_cam: 0, bolt_lambda: 90, bolt_light: 2.0e7,
+  ic: 60, ic_n: 3, bolt_seq: 1, cells: 1, cells_kids: 4, vs_cells: 0.7, sky_detail: 5.0, sky_r: 150, bolt_ms: 2.0, tower_cam: 1, tower_lens: 28}}   # a storm made of small clouds, lit from inside; no veil and no roll cloud in front
+castle_t_glow: {camera: scene, regime: glow, cover: 0.15, seed: 7, light: {time: night, weather: clear, sun_rel: 120, sky_k: 0.6, ground_k: 0.3, dens: 0.6, ts_blur: 3,
+                fires: [[-900, 600, 900000], [-700, 950, 700000], [-1150, 800, 600000], [0, 0, 1200000]]}}
+
+castle_t_rainbow: {camera: scene, regime: storm, cover: 0.15, seed: 9, light: {time: evening, weather: clear, sun_rel: 180, sky_k: 0.5, ground_k: 0.4, haze_k: 0.6, dens: 0.6, ts_blur: 3, rain: 0.3}}
+castle_t_mist: {camera: scene, regime: mist, seed: 11, light: {time: sunrise, weather: clear, sun_rel: -35, dens: 0.35, ts_blur: 2}}
+castle_t_rays: {camera: scene, regime: fair, cover: 0.3, seed: 13, light: {time: evening, weather: clear, sun_rel: -4, style: anime, dens: 0.45, ts_blur: 2}}
+castle_t_mammatus: {camera: scene, regime: mammatus, seed: 15, light: {time: sunset, weather: clear, sun_rel: -20, dens: 0.4, ts_blur: 2}}
+castle_t_mammatus2: {camera: scene, regime: mammatus, seed: 15, light: {time: sunset, weather: clear, sun_rel: 115, sun_el: 4, dens: 0.4, ts_blur: 2}}   # the sun from the side and behind: the pouches are lit from below

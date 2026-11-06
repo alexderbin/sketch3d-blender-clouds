@@ -1,0 +1,28 @@
+# Passport of the Clouds component (ARCHITECTURE.md): volumetric clouds — kinds (types.yaml), composition in
+# the frame (recipes.yaml, compose.py), precomputed light (light.py) and an Eevee "absorption + emission"
+# volume. Checks — the test stand (bench/stand.py, a showcase by recipe), the light comparison
+# (bench/reference_render.py), the reference without Blender (bench/bench.py). Replacing the light node's "puffs"
+# (core/light) with the volume is planned.
+component: clouds
+version: 1
+owner: "component maintainers"
+bench: bench/bench.py               # without Blender: diffusion energy on a sphere, the frame solver, the shapes of the kinds; the showcase — bench/stand.py
+steps:
+  clouds:
+    section: light
+    kind: adds
+    reads: [cameras]                # the composition goes into the camera's frame (core.layers.cameras)
+    may_read: [light]               # the scene's light plan (far.plan_of): sun, sky, ground
+    writes: [light]                 # volumes cloud_<i> (VDB in the step folder) in the step's collection
+    plan: steps.py:plan_clouds
+    build: steps.py:build_clouds
+    keys: {recipe: spacious, camera: 0, density: 0.35, detail: 0.3}
+    values: {recipe: catalog:components/clouds/recipes.yaml, camera: int, density: float, detail: float}
+    description: {recipe: "composition recipe (recipes.yaml): roles in fractions of the frame — kind, centre, width, top, distance",
+                  camera: "number of the scene camera in whose frame the composition is placed",
+                  density: "density of the masses (relative units): 0.35 — soft, no banding (cell τ < 1)",
+                  detail: "strength of the shading pattern finer than the coarse cell (k = detail/(σ·h))"}
+    profiles: {sketch: off}
+    code: [components/clouds/forms.py, components/clouds/light.py, components/clouds/compose.py, components/clouds/bl_clouds.py, components/clouds/types.yaml, components/clouds/recipes.yaml]
+    cost: heavy                     # shapes 0.1–0.5 s per mass, light 5–30 s per frame (numpy in Blender), grids 0.3–1.5 GB per scene
+    on_fail: stop

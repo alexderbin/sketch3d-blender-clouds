@@ -1,0 +1,48 @@
+# Cloud kinds (forms.py): form — mass (mass_lobes: domes + puffs) | layer (a layer of cells, strato_layer) |
+# cirrus (strokes); kw — shape knobs. The sizes are set by the recipe's role (fractions of the frame +
+# distance), here — the character of the kind.
+humilis:        # flat cumulus (fair weather): wide, low, few puffs
+  form: mass
+  peak: 0.5
+  kw: {aspect: 1.6, accents: 2, kids_frac: 0.35, levels: 2, n_domes: 3, face: 0.25}
+mediocris:      # medium cumulus: height ≈ width, puffs in groups near the top
+  form: mass
+  peak: 0.4
+  kw: {aspect: 0.8, accents: 3, kids_frac: 0.45, n_domes: 4, face: 0.25}
+bank:           # a bank-mass of a rich frame — the sky4b settings: puffs evenly on the domes, all have children, the front side is not restricted
+  form: mass
+  peak: 0.35
+  kw: {aspect: 0.45, n_domes: 6, levels: 3, kids_frac: 1.0, face: 1.0}
+bank_calm:      # a bank with a silhouette hierarchy (against "beads" in backlight): groups of puffs, a calm edge
+  form: mass
+  peak: 0.3
+  kw: {aspect: 0.6, accents: 4, kids_frac: 0.45, n_domes: 6, face: 0.25}
+bank_far:       # a distant low bank at the horizon — a calm strip
+  form: mass
+  peak: 0.6
+  kw: {aspect: 0.9, accents: 4, kids_frac: 0.3, n_domes: 8, face: 0.25}
+congestus:      # towering cumulus — a tower with a gesture (tilt tower °)
+  form: mass
+  peak: 0.5
+  kw: {tower: -10, accents: 3, kids_frac: 0.5, face: 0.25}
+cumulonimbus:   # cumulonimbus: a tower + an anvil (anvil — fractions of the role width: width, downwind drift)
+  form: mass
+  peak: 0.5
+  kw: {tower: -5, accents: 3, kids_frac: 0.5, face: 0.25, anvil: [0.8, 0.2]}
+lenticular:     # lenticular: smooth lenses in a stack, without puffs
+  form: mass
+  peak: 0.5
+  kw: {lens: 3}
+frame:          # a frame at the edge of the shot: a narrow tall mass with its shadow side toward the camera
+  form: mass
+  peak: 0.5
+  kw: {aspect: 0.32, accents: 2, lean: 0.5, kids_frac: 0.4, face: 0.25}
+stratocumulus:  # stratocumulus: a layer of cells (a floor of clouds under the camera — cover 0.95)
+  form: layer
+  kw: {thick: 600.0, cell: 1600.0, cover: 0.75, erode: 0.4, size_var: 0.5}
+altocumulus:    # altocumulus: small cells, a thin layer
+  form: layer
+  kw: {thick: 200.0, cell: 450.0, cover: 0.65, erode: 0.5, size_var: 0.6}
+cirrus:         # cirrus: strokes along the wind
+  form: cirrus
+  kw: {cover: 0.45}
